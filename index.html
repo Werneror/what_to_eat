@@ -1,62 +1,76 @@
 <!doctype html>
 <html lang="cn">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="随机选择一菜一汤解决吃什么这一问题。">
-		<title>该吃什么？</title>
-		<style>
-			body {
-				background-image:url('images/food.jpg');
-			}
-			#main {
-				margin-top: 200px;
-				text-align: center;
-			}
-			#menu {
-				height: 150px;
-				font-size: 24px;
-				line-height: 120px;
-			}
-			#start {
-				background-color: #4CAF50;
-			    border: none;
-			    color: white;
-			    padding: 15px 32px;
-			    text-align: center;
-			    text-decoration: none;
-			    display: inline-block;
-			    font-size: 14px;
-			}
-		</style>
-	</head>
-	<body>
-		<div id="main">
-			<div id="menu"></div>
-			<button id="start" type="button" class="btn btn-default">吃什么呢</button>
-		</div>
-		<script>
-			function random_select(list){
-				return list[Math.floor(Math.random() * list.length)];
-			}
-			document.getElementById("start").onclick = function(){
-				var food = random_select(food_list);
-				var soup = random_select(soup_list);
-				document.getElementById("menu").innerText = food + " + " + soup;
-			}
-			var food_list = [
-				'红饶鱼',
-				'西红柿炒鸡蛋',
-				'韭菜炒鸡蛋',
-				'蒜苗炒肉',
-				'芹菜炒肉',
-				'醋溜白菜',
-				'香菇炒青菜'
-			]
-			var soup_list = [
-				'西红柿鸡蛋汤',
-				'猪肝菠菜汤'
-			]
-		</script>
-	</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="随机选择一菜一汤解决吃什么这一问题。">
+        <title>该吃什么？</title>
+        <style>
+            body {
+                background-image:url('images/food.jpg');
+            }
+            #main {
+                margin-top: 200px;
+                text-align: center;
+            }
+            #menu {
+                height: 150px;
+                font-size: 24px;
+                line-height: 120px;
+            }
+            #start {
+                background-color: #4CAF50;
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <div id="menu"></div>
+            <button id="start" type="button" class="btn btn-default">吃什么呢</button>
+        </div>
+        <script>
+            function random_select(list){
+                return list[Math.floor(Math.random() * list.length)];
+            }
+            function gen_menu(){
+                return {"food": random_select(food_list), "soup": random_select(soup_list)}
+            }
+            function check_menu(menu){
+                return menu["food"]["material"].filter(function(v){ return menu["soup"]["material"].indexOf(v) > -1 }).length == 0;
+            }
+            function show_menu(menu){
+                document.getElementById("menu").innerText = menu["food"]["name"] + " + " + menu["soup"]["name"];
+            }
+            document.getElementById("start").onclick = function(){
+                var i = 100;
+                while(i > 0) {
+                    var menu = gen_menu();
+                    if(check_menu(menu)) {
+                        break;
+                    }
+                    i = i -1;
+                }
+                show_menu(menu);
+            }
+            var food_list = [
+                {name: "红饶鱼", material:["鱼"]},
+                {name: "西红柿炒鸡蛋", material:["西红柿", "鸡蛋"]},
+                {name: "韭菜炒鸡蛋", material:["韭菜", "鸡蛋"]},
+                {name: "蒜苗炒肉", material:["蒜苗", "猪肉"]},
+                {name: "芹菜炒肉", material:["芹菜", "猪肉"]},
+                {name: "香菇炒青菜", material:["香菇", "青菜"]}
+            ]
+            var soup_list = [
+                {name: "西红柿鸡蛋汤", material:["西红柿", "鸡蛋"]},
+                {name: "猪肝菠菜汤", material:["猪肝", "菠菜"]}
+            ]
+        </script>
+    </body>
 </html>
