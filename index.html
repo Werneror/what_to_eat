@@ -28,12 +28,22 @@
                 display: inline-block;
                 font-size: 14px;
             }
+            #footer {
+            	position: absolute;
+    			bottom: 0;
+    			margin-bottom: 10px;
+    			text-align: center;
+    			width: 99%;
+            }
         </style>
     </head>
     <body>
         <div id="main">
             <div id="menu"></div>
             <button id="start" type="button" class="btn btn-default">吃什么好呢</button>
+        </div>
+        <div id="footer">
+        	<a href="https://github.com/Werneror/what_to_eat" target="_blank">使用说明</a>
         </div>
         <script>
             function random_select(list){
